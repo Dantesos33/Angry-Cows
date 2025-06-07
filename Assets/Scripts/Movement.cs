@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
     Animator anim;
     bool isMoving;
     Vector2 movDirection;
+    public VirtualJoystick joystick;
     float moveX, moveY;
 
     // Start is called before the first frame update
@@ -31,13 +32,23 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         // for physics calculations
-        rb.velocity = new Vector2(movDirection.x * moveSpeed, movDirection.y * moveSpeed);
+        rb.velocity = new Vector2(moveX * moveSpeed, moveY * moveSpeed);
+
     }
 
     void GetInput()
     {
-        moveX = Input.GetAxis("Horizontal");
-        moveY = Input.GetAxis("Vertical");
+        // Get movement from Keyboard input
+        float keyboardX = Input.GetAxis("Horizontal"); // A/D or Arrow keys
+        float keyboardY = Input.GetAxis("Vertical"); // W/S or Arrow keys
+
+        // Get movement from Joystick input
+        float joystickX = joystick.Horizontal();
+        float joystickY = joystick.Vertical();
+
+        moveX = joystickX != 0 ? joystickX : keyboardX;  // Use joystick if it's moving, otherwise use keyboard
+        moveY = joystickY != 0 ? joystickY : keyboardY;  // Use joystick if it's moving, otherwise use keyboard
+
 
         movDirection = new Vector2(moveX, moveY).normalized;
     }
