@@ -10,6 +10,7 @@ public class CowAI : MonoBehaviour
     Seeker seeker;
     Rigidbody2D rb;
     Path path;
+    Audio_Manager audioManager;
 
     [SerializeField] float speed = 6000f;
     [SerializeField] float sightDistance = 6f;
@@ -31,6 +32,7 @@ public class CowAI : MonoBehaviour
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<Audio_Manager>();
 
         InvokeRepeating("UpdatePath", 0f, .5f);
     }
@@ -76,7 +78,9 @@ public class CowAI : MonoBehaviour
 
         if (isChasing)
         {
+            transform.localScale = new Vector3(1, 1, 1);
             rb.AddForce(force);
+            audioManager.PlayMusic(audioManager.cowChase);
         }
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
@@ -116,7 +120,7 @@ public class CowAI : MonoBehaviour
     {
         if (IsPlayerInSight())
         {
-            isChasing = true; 
+            isChasing = true;
         }
 
         Animate();

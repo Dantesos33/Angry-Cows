@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerDetectionZone
   - Ground
+  - Audio
   layers:
   - Default
   - TransparentFX
