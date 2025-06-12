@@ -14,4 +14,9 @@ public class UI_Manager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("Start_Screen");
+    }
 }
